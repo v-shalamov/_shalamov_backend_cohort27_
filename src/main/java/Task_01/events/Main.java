@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         EventRepository eventRepositoryList = new EventRepositoryListImpl();
-        EventRepository eventRepositoryFile = new EventRepositoryFileImpl("events.txt");
+        EventRepository eventRepositoryFile = new EventRepositoryFileImpl("events1.txt");
         EventService eventService = new EventServiceImpl(eventRepositoryFile);
         EventController eventController = new EventController(scanner, eventService);
 

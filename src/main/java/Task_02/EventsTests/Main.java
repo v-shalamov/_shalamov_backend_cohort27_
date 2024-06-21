@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         EventRepository eventRepositoryList = new EventRepositoryListImpl();
-        EventRepository eventRepositoryFile = new EventRepositoryFileImpl("events.txt");
+        EventRepository eventRepositoryFile = new EventRepositoryFileImpl("C:\\Users\\invoy\\_shalamov_backend_cohort27_\\evenst1.txt");
         EventService eventService = new EventServiceImpl(eventRepositoryList);
         EventController eventController = new EventController(scanner, eventService);
 
