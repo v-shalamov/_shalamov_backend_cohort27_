@@ -1,12 +1,13 @@
 package Task_02.EventsTests.repositories.impl;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
+import Task_02.EventsTests.domains.Event;
+import org.junit.jupiter.api.*;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +24,33 @@ class EventRepositoryFileImplTest {
         createNewFileForTest(TEMP_EVENTS_FILE_NAME);
 
         eventRepositoryFile = new EventRepositoryFileImpl(TEMP_EVENTS_FILE_NAME);
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+        deleteFileAfterTest(TEMP_EVENTS_FILE_NAME);
+    }
+
+    @DisplayName("save():")
+    @Nested
+    class Save {
+
+        @Test
+        public void writes_correct_line_to_file() throws Exception {
+            Event event = new Event("a", LocalDate.parse("01-06-2023"), LocalDate.parse("01-06-2023"));
+
+            eventRepositoryFile.save(event);
+
+            String expected = "1|a|01-06-2023|01-06-2023";
+
+            BufferedReader reader = new BufferedReader(new FileReader(TEMP_EVENTS_FILE_NAME));
+
+            String actual = reader.readLine();
+
+            reader.close();
+
+            assertEquals(expected, actual);
+        }
     }
 
     private static void createNewFileForTest(String fileName) throws IOException {
