@@ -1,13 +1,14 @@
 package Task_02.EventsTests.repositories.impl;
 
+import Task_01.events.repositories.EventRepository;
 import Task_02.EventsTests.domains.Event;
 import org.junit.jupiter.api.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,13 +18,15 @@ class EventRepositoryFileImplTest {
 
     private static final String TEMP_EVENTS_FILE_NAME = "events_test.txt";
 
-    private EventRepositoryFileImpl eventRepositoryFile;
+    private EventRepositoryFileImpl eventRepository;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @BeforeEach
     public void setUp() throws Exception {
         createNewFileForTest(TEMP_EVENTS_FILE_NAME);
 
-        eventRepositoryFile = new EventRepositoryFileImpl(TEMP_EVENTS_FILE_NAME);
+        eventRepository = new EventRepositoryFileImpl(TEMP_EVENTS_FILE_NAME);
     }
 
     @AfterEach
@@ -37,9 +40,9 @@ class EventRepositoryFileImplTest {
 
         @Test
         public void writes_correct_line_to_file() throws Exception {
-            Event event = new Event("a", LocalDate.parse("01-06-2023"), LocalDate.parse("01-06-2023"));
+            Event event = new Event("a", LocalDate.parse("01-06-2023", formatter), LocalDate.parse("01-06-2023", formatter));
 
-            eventRepositoryFile.save(event);
+            eventRepository.save(event);
 
             String expected = "1|a|01-06-2023|01-06-2023";
 
@@ -48,6 +51,32 @@ class EventRepositoryFileImplTest {
             String actual = reader.readLine();
 
             reader.close();
+
+            assertEquals(expected, actual);
+        }
+    }
+
+    @DisplayName("findAll():")
+    @Nested
+    class FindAll {
+
+        @Test
+        public void returns_correct_list_of_events() throws Exception {
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("TEMP_EVENTS_FILE_NAME"));
+
+            writer.write("1|a|01-06-2023|01-06-2023");
+            writer.newLine();
+            writer.write("2|b|01-06-2023|01-06-2023");
+            writer.newLine();
+            writer.close();
+
+            List<Event> expected = Arrays.asList(
+                    new Event(1L, "a", LocalDate.parse("01-06-2023", formatter), LocalDate.parse("01-06-2023", formatter)),
+                    new Event(2L, "b", LocalDate.parse("01-06-2023", formatter), LocalDate.parse("01-06-2023", formatter))
+            );
+
+            List<Event> actual = eventRepository.findAll();
 
             assertEquals(expected, actual);
         }

@@ -5,6 +5,7 @@ import Task_02.EventsTests.repositories.EventRepository;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,11 +48,12 @@ public class EventRepositoryFileImpl implements EventRepository {
 
             event.setId(generatedId);
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             writer.write(
                     event.getId() + "|"
                       + event.getName() + "|"
-                      + event.getStartDate() + "|"
-                      + event.getExpirationDate());
+                      + event.getStartDate().format(formatter) + "|"
+                      + event.getExpirationDate().format(formatter));
             writer.newLine();
 
         } catch (IOException e) {

@@ -1,21 +1,21 @@
 package Task_02.EventsTests.domains;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Event {
 
     private Long id;
     private String name;
     private LocalDate startDate;
     private LocalDate expirationDate;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public Event(Long id, String name, LocalDate startDate, LocalDate expirationDate) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.expirationDate = expirationDate;
-    }
-
-    public Event() {
-
     }
 
     public Event(String name, LocalDate startDate, LocalDate expirationDate) {
@@ -56,25 +56,13 @@ public class Event {
         this.expirationDate = expirationDate;
     }
 
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
-        Event event = (Event) object;
-        return java.util.Objects.equals(id, event.id) && java.util.Objects.equals(name, event.name) && java.util.Objects.equals(startDate, event.startDate) && java.util.Objects.equals(expirationDate, event.expirationDate);
-    }
-
-    public int hashCode() {
-        return java.util.Objects.hash(super.hashCode(), id, name, startDate, expirationDate);
-    }
-
     @Override
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", name=" + name +
-                ", startDate=" + startDate +
-                ", expirationDate=" + expirationDate +
+                ", name='" + name + '\'' +
+                ", startDate=" + startDate.format(formatter) +
+                ", expirationDate=" + expirationDate.format(formatter) +
                 '}';
     }
 }
