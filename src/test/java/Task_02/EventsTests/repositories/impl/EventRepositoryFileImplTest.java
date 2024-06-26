@@ -1,6 +1,5 @@
 package Task_02.EventsTests.repositories.impl;
 
-import Task_01.events.repositories.EventRepository;
 import Task_02.EventsTests.domains.Event;
 import org.junit.jupiter.api.*;
 
@@ -63,7 +62,7 @@ class EventRepositoryFileImplTest {
         @Test
         public void returns_correct_list_of_events() throws Exception {
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter("TEMP_EVENTS_FILE_NAME"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(TEMP_EVENTS_FILE_NAME));
 
             writer.write("1|a|01-06-2023|01-06-2023");
             writer.newLine();

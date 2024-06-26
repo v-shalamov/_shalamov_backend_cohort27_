@@ -17,6 +17,8 @@ public class EventRepositoryFileImpl implements EventRepository {
         this.fileName = fileName;
     }
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
     Long generatedId = 1L;
 
     @Override
@@ -33,8 +35,8 @@ public class EventRepositoryFileImpl implements EventRepository {
                     .map(parsed -> new Event(
                             Long.parseLong(parsed[0]),
                             parsed[1],
-                            LocalDate.parse(parsed[2]),
-                            LocalDate.parse(parsed[3])))
+                            LocalDate.parse(parsed[2], formatter),
+                            LocalDate.parse(parsed[3], formatter)))
                     .collect(Collectors.toList());
 
         } catch (IOException e)  {
@@ -48,7 +50,6 @@ public class EventRepositoryFileImpl implements EventRepository {
 
             event.setId(generatedId);
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             writer.write(
                     event.getId() + "|"
                       + event.getName() + "|"

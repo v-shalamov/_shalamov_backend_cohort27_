@@ -2,6 +2,7 @@ package Task_02.EventsTests.domains;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Event {
 
@@ -64,5 +65,18 @@ public class Event {
                 ", startDate=" + startDate.format(formatter) +
                 ", expirationDate=" + expirationDate.format(formatter) +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(id, event.id) && Objects.equals(name, event.name) && Objects.equals(startDate, event.startDate) && Objects.equals(expirationDate, event.expirationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, startDate, expirationDate);
     }
 }
